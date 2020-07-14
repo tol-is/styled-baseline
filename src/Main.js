@@ -3,46 +3,43 @@ import { useContext } from 'preact/hooks';
 import { css, cx } from 'emotion';
 
 import FontContext from './FontContext';
+import AppContext from './AppContext';
 import TextBaseline from './TextBaseline';
 
-let grid = css`
-  background-color: #f8f8f8;
-  color: #212121;
-  padding: 16px;
-  padding-top: 176px;
-  padding-left: 80px;
-  padding-right: 80px;
-  min-height: 100vh;
-  position: relative;
-  background-repeat: repeat;
-  background-size: 100% 16px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1) 8px,
-    transparent 8px
-  );
-`;
+const baseline = 8;
+
+
 
 export default () => {
   const { font } = useContext(FontContext);
+  const { baseline, setBaseline } = useContext(AppContext);
 
   if (!font) return null;
 
+  let grid = css`
+    background-color: #f8f8f8;
+    color: #212121;
+    min-height:100vh;
+    padding-top: ${baseline * 15}px;
+    padding-left: 80px;
+    padding-right: 80px;
+      background-repeat: repeat;
+      background-size: 100% ${baseline}px;
+      background-image: linear-gradient(
+        rgba(255, 107, 107, 0.6) 1px,
+        transparent 0
+      );
+  `;
+
   return (
     <section className={grid}>
-      <TextBaseline fontSize={72} leading={2} flow={6}>
-        Lorem Ipsum is simply dummy text
+      <TextBaseline font={font} baseline={baseline} fontSize={200} leading={0} flow={6}>
+        XOTUS
       </TextBaseline>
-      <TextBaseline fontSize={22} leading={2} flow={2}>
+      <TextBaseline font={font} baseline={baseline} fontSize={42} leading={2} flow={0}>
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
+        since the 1500s.
       </TextBaseline>
     </section>
   );

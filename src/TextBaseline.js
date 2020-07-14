@@ -1,69 +1,78 @@
 import { h } from 'preact';
 import { useContext } from 'preact/hooks';
 import { css } from 'emotion';
-import FontContext from './FontContext';
 
-const baseline = 8;
+
 const preventCollapse = 1;
 
-export default ({ children, fontSize, leading = 0, flow = 0 }) => {
-  const { font } = useContext(FontContext);
+export default ({ 
+  children, 
+  font, 
+  fontSize, 
+  baseline=8, 
+  leading=0, 
+  flow=0 
+}) => {
 
-  // cap height
-  const capHeightRatio = font.capHeight / font.unitsPerEm;
+  const { familyName, capHeight, ascent, descent, unitsPerEm:upm } = font
+
+  // // cap height
+  const capHeightRatio = capHeight / upm;
+  const ascenderRatio = ascent / upm;
+  const descenderRatio = descent / upm;
+  const preventCollapseRatio = 1 / fontSize;
+
+  // type
   const capSize = capHeightRatio * fontSize;
-
-  // content box / round up baseline unit
   const typeRows = Math.ceil(capSize / baseline);
   const typeHeight = typeRows * baseline;
+  const typeHeightRatio = typeHeight / fontSize;
 
-  // round leading
+  // leading
   const leadingRound = Math.round(leading);
-  // if negative min value is typeRows
+
   const leadingValue =
     leadingRound < 0
       ? Math.min(Math.abs(leadingRound), typeRows) * -1
       : leadingRound;
 
-  // leading height in px
   const leadingHeight = leadingValue * baseline;
-
-  // line-height in px
   const lineHeight = typeHeight + leadingHeight;
+  const lineHeightRatio = lineHeight / fontSize;
+  const whiteSpaceHalf = (1 - lineHeightRatio) / 2;
 
-  // crop white space top
-  const negativeSpace = lineHeight - typeHeight;
-  const cropHeight = negativeSpace - (negativeSpace % baseline);
+  // leading trim
+  const trimBottom =
+    Math.abs(descenderRatio) - whiteSpaceHalf + preventCollapseRatio;
 
-  // align to baseline
-  const boundingBoxHeight =
-    ((font.ascent + Math.abs(font.descent)) / font.unitsPerEm) * fontSize;
-  const descenderHeight = Math.abs(font.descent / font.unitsPerEm) * fontSize;
-  const whiteSpaceBottom = (boundingBoxHeight - lineHeight) / 2;
-  const baselineOffset = -1 * (whiteSpaceBottom - descenderHeight);
-
-  // flow
-  const flowHeight = flow * baseline;
+  const trimTop =
+    ascenderRatio - typeHeightRatio - whiteSpaceHalf + preventCollapseRatio;
 
   return (
     <span
       className={css`
-          display: inline-block;
-          vertical-align: bottom;
-          position: relative;
-          font-family: '${font.familyName}';
-          font-weight: ${font['OS/2'].usWeightClass};
-          font-size: ${fontSize}px;
-          margin-bottom: ${flowHeight}px;
-          line-height: ${lineHeight}px;
-          transform: translateY(${baselineOffset}px);
-          padding-top: ${preventCollapse}px;
-          &:before {
-            content: '';
-            margin-top: ${-(cropHeight + preventCollapse)}px;
-            display: block;
-            height: 0;
-          }
+        display: block;
+        vertical-align: bottom;
+        position: relative;
+        font-family: '${familyName}';
+        font-weight: ${font['OS/2'].usWeightClass};
+        font-size: ${fontSize}px;
+        line-height: ${lineHeightRatio};
+        padding: ${preventCollapseRatio}em 0;
+        margin-bottom: ${flow*baseline}px;
+        background-color: rgba(0,0,0,0.1);
+        &:before{
+          content: '';
+          display:block;
+          margin-bottom:${trimTop * -1}em;
+          height: 0;   
+        }
+        &:after{
+          content: '';
+          display:block;
+          margin-bottom:${trimBottom * -1}em;
+          height: 0;   
+        }
         `}
     >
       {children}

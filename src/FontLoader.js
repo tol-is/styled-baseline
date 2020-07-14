@@ -6,15 +6,21 @@ import fontkit from 'fontkit';
 import blobToBuffer from 'blob-to-buffer';
 
 import FontContext from './FontContext';
+import AppContext from './AppContext';
+
 
 import FiraCode from './fonts/FiraCode-Regular.otf';
-import FiraSans from './fonts/FiraSans-Book.otf';
+import Averta from './fonts/Averta-Bold.otf';
+import Cera from './fonts/Cera-Regular.ttf';
+import AvertaPE from './fonts/AvertaPE-Regular.otf';
+import Inter from './fonts/Inter.otf';
 
-const defaultFontUrl = FiraSans;
+const defaultFontUrl = Cera;
 
 export default () => {
   //
   const { setFont } = useContext(FontContext);
+  const { baseline, setBaseline } = useContext(AppContext);
   //
   useEffect(() => {
     loadURL(defaultFontUrl);
@@ -73,18 +79,26 @@ export default () => {
         width: 100%;
         background-color: #181818;
         color: #f8f8f8;
-        padding: 16px;
         font-size: 16px;
         display: flex;
         width: 100%;
-        height: 80px;
+        height: 30px;
         & > * {
           flex: 1;
           text-align-center;
         }
       `}
     >
-      Choose Font : <input type="file" onChange={onChange} />
+      <input type="file" onChange={onChange} />
+      <div>
+        <input type="number" value={baseline} min={2} max={20} step={1} onChange={(e) => setBaseline(e.target.value)} />
+      </div>
+      
+      <button onClick={() => loadURL(Inter)}>InterV</button>
+      <button onClick={() => loadURL(FiraCode)}>FiraCode</button>
+      <button onClick={() => loadURL(Cera)}>Cera</button>
+      <button onClick={() => loadURL(Averta)}>Averta Bold</button>
+      <button onClick={() => loadURL(AvertaPE)}>AvertaPE Reg</button>
     </div>
   );
 };
