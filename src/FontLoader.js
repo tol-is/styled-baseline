@@ -89,8 +89,8 @@ export default () => {
         }
       `}
     >
-      <input type="file" onChange={onChange} />
-      <div>
+      <div className={css`flex:0 0 10%; overflow:hidden; margin-right:20px;`}><input type="file" onChange={onChange} /></div>
+      <div className={css`flex:0 0 5%; overflow:hidden; margin-right:20px;`}>
         <input type="number" value={baseline} min={2} max={20} step={1} onChange={(e) => setBaseline(e.target.value)} />
       </div>
       

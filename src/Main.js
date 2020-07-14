@@ -5,7 +5,7 @@ import { css, cx } from 'emotion';
 import FontContext from './FontContext';
 import AppContext from './AppContext';
 import TextBaseline from './TextBaseline';
-
+import Text from './Text';
 const baseline = 8;
 
 
@@ -20,7 +20,7 @@ export default () => {
     background-color: #f8f8f8;
     color: #212121;
     min-height:100vh;
-    padding-top: ${baseline * 15}px;
+    padding-top: ${baseline * 8}px;
     padding-left: 80px;
     padding-right: 80px;
       background-repeat: repeat;
@@ -36,11 +36,21 @@ export default () => {
       <TextBaseline font={font} baseline={baseline} fontSize={200} leading={0} flow={6}>
         XOTUS
       </TextBaseline>
-      <TextBaseline font={font} baseline={baseline} fontSize={42} leading={2} flow={0}>
+      <TextBaseline font={font} baseline={baseline} fontSize={42} leading={2} flow={6}>
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
         since the 1500s.
       </TextBaseline>
+      <Text font={font} fontSize={100} flow={6}>
+        XOTUS
+      </Text>
+      <ul>
+        <li>upm: {font.unitsPerEm}</li>
+        <li>ascent: {font.ascent}</li>
+        <li>descent: {font.descent}</li>
+        <li>capheight: {font.capHeight}</li>
+        <li>linegap: {font.lineGap}</li>
+      </ul>
     </section>
   );
 };

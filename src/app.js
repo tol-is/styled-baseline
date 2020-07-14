@@ -8,7 +8,7 @@ import Main from './Main';
 
 const App = () => {
   const [font, setFont] = useState();
-  const [baseline, setBaseline] = useState(8);
+  const [baseline, setBaseline] = useState(12);
 
   return (
     <FontContext.Provider value={{ font, setFont }}>
