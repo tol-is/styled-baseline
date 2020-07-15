@@ -28,13 +28,14 @@ export default ({
   const typeRows = Math.ceil(capSize / baseline);
   const typeHeight = typeRows * baseline;
 
-  // line height
+  // leading
   const leadingRound = Math.round(leading);
   const leadingValue =
     leadingRound < 0
       ? Math.min(Math.abs(leadingRound), typeRows) * -1
       : leadingRound;
 
+  // line height
   const lineHeight = typeHeight + leadingValue * baseline;
 
   // leading trim
@@ -45,8 +46,8 @@ export default ({
   // trying to compute a padding top value
   // to realign the type to the baseline
   // essentially bring the line-height back to the computed
-  // typeHeight + leadingValue * baseline
-  // eg XO with InterV should be 216px, but it's 209.94px
+  // typeHeight + leadingValue * baseline at line 39.
+  // eg XO with InterV should be 300px, but it's 290.94px
   const paddingTop = 0;
 
   return (
