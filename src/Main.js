@@ -42,7 +42,7 @@ export default () => {
         font={font}
         baseline={baseline}
         fontSize={42}
-        leading={2}
+        leading={1}
         flow={6}
       >
         Lorem Ipsum is simply dummy text of the printing and typesetting

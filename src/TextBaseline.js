@@ -12,7 +12,14 @@ export default ({
   leading = 0,
   flow = 0,
 }) => {
-  const { familyName, capHeight, ascent, descent, unitsPerEm: upm } = font;
+  const {
+    familyName,
+    capHeight,
+    ascent,
+    descent,
+    unitsPerEm: upm,
+    lineGap,
+  } = font;
 
   const descentAbs = Math.abs(descent);
   const capHeightRatio = capHeight / upm;
@@ -20,7 +27,7 @@ export default ({
   const descentRatio = descentAbs / upm;
 
   // content area
-  const emSquare = ascent + descentAbs;
+  const emSquare = ascent + descentAbs + lineGap;
   const boundingBox = (emSquare / upm) * fontSize;
 
   // type
@@ -38,8 +45,10 @@ export default ({
   // line height
   const lineHeight = typeHeight + leadingValue * baseline;
 
+  const gapSize = (lineGap / upm) * fontSize;
+
   // leading trim
-  const lineHeightOffset = (boundingBox - lineHeight) / 2;
+  const lineHeightOffset = (boundingBox - lineHeight - gapSize) / 2;
   const trimTop = ascentRatio * fontSize - lineHeightOffset;
   const trimBottom = descentRatio * fontSize - lineHeightOffset;
 
