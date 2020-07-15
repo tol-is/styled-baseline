@@ -21,6 +21,7 @@ export default ({
     lineGap,
   } = font;
 
+  // ratios
   const descentAbs = Math.abs(descent);
   const capHeightRatio = capHeight / upm;
   const ascentRatio = (ascent - capHeight) / upm;
@@ -28,7 +29,7 @@ export default ({
 
   // content area
   const emSquare = ascent + descentAbs + lineGap;
-  const boundingBox = (emSquare / upm) * fontSize;
+  const boundingBoxHeight = (emSquare / upm) * fontSize;
 
   // type
   const capSize = capHeightRatio * fontSize;
@@ -45,12 +46,13 @@ export default ({
   // line height
   const lineHeight = typeHeight + leadingValue * baseline;
 
-  const gapSize = (lineGap / upm) * fontSize;
-
   // leading trim
-  const lineHeightOffset = (boundingBox - lineHeight - gapSize) / 2;
+  const lineGapHeight = (lineGap / upm) * fontSize;
+  const lineHeightOffset = (boundingBoxHeight - lineHeight - lineGapHeight) / 2;
   const trimTop = ascentRatio * fontSize - lineHeightOffset;
   const trimBottom = descentRatio * fontSize - lineHeightOffset;
+
+  // 1.0311404413
 
   // trying to compute a padding top value
   // to realign the type to the baseline grid
