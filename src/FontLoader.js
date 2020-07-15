@@ -8,14 +8,13 @@ import blobToBuffer from 'blob-to-buffer';
 import FontContext from './FontContext';
 import AppContext from './AppContext';
 
-
 import FiraCode from './fonts/FiraCode-Regular.otf';
 import Averta from './fonts/Averta-Bold.otf';
 import Cera from './fonts/Cera-Regular.ttf';
 import AvertaPE from './fonts/AvertaPE-Regular.otf';
 import Inter from './fonts/Inter.otf';
 
-const defaultFontUrl = Cera;
+const defaultFontUrl = Inter;
 
 export default () => {
   //
@@ -26,27 +25,27 @@ export default () => {
     loadURL(defaultFontUrl);
   }, [defaultFontUrl]);
 
-  const onChange = e => {
+  const onChange = (e) => {
     let file = e.target.files && e.target.files[0];
     if (file) {
       loadBlob(file);
     }
   };
 
-  const loadURL = url => {
+  const loadURL = (url) => {
     fetch(url)
-      .then(res => res.blob())
+      .then((res) => res.blob())
       .then(loadBlob, console.error);
   };
 
-  const loadBlob = blob => {
+  const loadBlob = (blob) => {
     blobToBuffer(blob, (err, buffer) => {
       if (err) {
         throw err;
       }
 
       var reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const font = fontkit.create(buffer);
         useFont({ fontData: reader.result, font });
       };
@@ -89,11 +88,32 @@ export default () => {
         }
       `}
     >
-      <div className={css`flex:0 0 10%; overflow:hidden; margin-right:20px;`}><input type="file" onChange={onChange} /></div>
-      <div className={css`flex:0 0 5%; overflow:hidden; margin-right:20px;`}>
-        <input type="number" value={baseline} min={2} max={20} step={1} onChange={(e) => setBaseline(e.target.value)} />
+      <div
+        className={css`
+          flex: 0 0 10%;
+          overflow: hidden;
+          margin-right: 20px;
+        `}
+      >
+        <input type="file" onChange={onChange} />
       </div>
-      
+      <div
+        className={css`
+          flex: 0 0 5%;
+          overflow: hidden;
+          margin-right: 20px;
+        `}
+      >
+        <input
+          type="number"
+          value={baseline}
+          min={2}
+          max={20}
+          step={1}
+          onChange={(e) => setBaseline(e.target.value)}
+        />
+      </div>
+
       <button onClick={() => loadURL(Inter)}>InterV</button>
       <button onClick={() => loadURL(FiraCode)}>FiraCode</button>
       <button onClick={() => loadURL(Cera)}>Cera</button>

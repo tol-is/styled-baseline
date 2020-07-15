@@ -1,81 +1,87 @@
 import { h } from 'preact';
-import { useContext } from 'preact/hooks';
 import { css } from 'emotion';
 
-
+// TODO
 const preventCollapse = 1;
 
-export default ({ 
-  children, 
-  font, 
-  fontSize, 
-  baseline=8, 
-  leading=0, 
-  flow=0 
+export default ({
+  children,
+  font,
+  fontSize,
+  baseline = 8,
+  leading = 0,
+  flow = 0,
 }) => {
+  const { familyName, capHeight, ascent, descent, unitsPerEm: upm } = font;
 
-  const { familyName, capHeight, ascent, descent, unitsPerEm:upm } = font
-
-  // // cap height
+  const descentAbs = Math.abs(descent);
   const capHeightRatio = capHeight / upm;
-  const ascenderRatio = ascent / upm;
-  const descenderRatio = descent / upm;
-  const preventCollapseRatio = 1 / fontSize;
+  const ascentRatio = (ascent - capHeight) / upm;
+  const descentRatio = descentAbs / upm;
+
+  // content area
+  const emSquare = ascent + descentAbs;
+  const boundingBox = (emSquare / upm) * fontSize;
 
   // type
   const capSize = capHeightRatio * fontSize;
   const typeRows = Math.ceil(capSize / baseline);
   const typeHeight = typeRows * baseline;
-  const typeHeightRatio = typeHeight / fontSize;
 
-  // leading
+  // line height
   const leadingRound = Math.round(leading);
-
   const leadingValue =
     leadingRound < 0
       ? Math.min(Math.abs(leadingRound), typeRows) * -1
       : leadingRound;
 
-  const leadingHeight = leadingValue * baseline;
-  const lineHeight = typeHeight + leadingHeight;
-  const lineHeightRatio = lineHeight / fontSize;
-  const whiteSpaceHalf = (1 - lineHeightRatio) / 2;
+  const lineHeight = typeHeight + leadingValue * baseline;
 
   // leading trim
-  const trimBottom =
-    Math.abs(descenderRatio) - whiteSpaceHalf + preventCollapseRatio;
+  const lineHeightOffset = (boundingBox - lineHeight) / 2;
+  const trimTop = ascentRatio * fontSize - lineHeightOffset;
+  const trimBottom = descentRatio * fontSize - lineHeightOffset;
 
-  const trimTop =
-    ascenderRatio - typeHeightRatio - whiteSpaceHalf + preventCollapseRatio;
+  // trying to compute a padding top value
+  // to realign the type to the baseline
+  // essentially bring the line-height back to the computed
+  // typeHeight + leadingValue * baseline
+  // eg XO with InterV should be 216px, but it's 209.94px
+  const paddingTop = 0;
 
   return (
-    <span
+    <div
       className={css`
-        display: block;
+        margin-bottom: ${flow * baseline}px;
+      `}
+    >
+      <span
+        className={css`
+        display: inline-block;
         vertical-align: bottom;
         position: relative;
         font-family: '${familyName}';
         font-weight: ${font['OS/2'].usWeightClass};
         font-size: ${fontSize}px;
-        line-height: ${lineHeightRatio};
-        padding: ${preventCollapseRatio}em 0;
-        margin-bottom: ${flow*baseline}px;
+        line-height: ${lineHeight}px;
+        padding-top: ${paddingTop}px;
         background-color: rgba(0,0,0,0.1);
         &:before{
           content: '';
           display:block;
-          margin-bottom:${trimTop * -1}em;
+          margin-top:${trimTop * -1}px;
           height: 0;   
         }
         &:after{
           content: '';
           display:block;
-          margin-bottom:${trimBottom * -1}em;
+          margin-bottom:${trimBottom * -1}px;
           height: 0;   
         }
         `}
-    >
-      {children}
-    </span>
+      >
+        {children}
+      </span>
+    </div>
   );
 };
