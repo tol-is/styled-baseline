@@ -53,7 +53,7 @@ export default ({
   const trimBottom = descentRatio * fontSize - lineHeightOffset;
 
   // trying to compute a padding top value
-  // to realign the type to the baseline
+  // to realign the type to the baseline grid
   // essentially bring the line-height back to the computed
   // typeHeight + leadingValue * baseline at line 39.
   // eg XO with InterV should be 300px, but it's 290.94px
