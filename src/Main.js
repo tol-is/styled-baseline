@@ -18,10 +18,10 @@ export default () => {
     background-color: #f8f8f8;
     color: #212121;
     min-height: 100vh;
-    padding-top: ${baseline * 8}px;
-    padding-bottom: ${baseline * 8}px;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-top: ${baseline * flow + 4 * baseline}px;
+    padding-bottom: ${baseline * flow + 4 * baseline}px;
+    padding-left: 5vw;
+    padding-right: 5vw;
     background-repeat: repeat;
     background-size: 100% ${baseline}px;
     ${grid &&
