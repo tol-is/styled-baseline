@@ -50,7 +50,7 @@ export default ({
   const lineGapHeight = (lineGap / upm) * fontSize;
   const lineHeightOffset = (boundingBoxHeight - lineHeight - lineGapHeight) / 2;
   const trimTop = ascentRatio * fontSize - lineHeightOffset;
-  const trimBottom = descentRatio * fontSize - lineHeightOffset - 0.02;
+  const trimBottom = descentRatio * fontSize - lineHeightOffset - 0.04;
 
   // trying to compute a padding top value
   // to realign the type to the baseline grid
@@ -58,7 +58,8 @@ export default ({
   // typeHeight + leadingValue * baseline at line 39.
   // eg XO with InterV should be 300px, but it's 290.94px
   const actualHeight = lineHeight - trimTop - trimBottom;
-  const paddingTop = preventCollapse + ((lineHeight - actualHeight) % baseline);
+  const paddingTop =
+    1 - preventCollapse + ((lineHeight - actualHeight) % baseline);
 
   return (
     <div
@@ -71,7 +72,7 @@ export default ({
         contentEditable
         className={css`
         display: inline-block;
-        vertical-align: bottom;
+        vertical-align: baseline;
         position: relative;
         font-family: '${familyName}';
         font-weight: ${font['OS/2'].usWeightClass};
@@ -88,7 +89,7 @@ export default ({
         &:after{
           content: '';
           display:block;
-          margin-bottom:${trimBottom * -1}px;
+          margin-bottom:${1 + trimBottom * -1}px;
           height: 0;   
         }
         &:focus{
