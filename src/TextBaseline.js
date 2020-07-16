@@ -67,6 +67,7 @@ export default ({
       `}
     >
       <span
+        data-gramm_editor="false"
         contentEditable
         className={css`
         display: inline-block;
@@ -89,6 +90,10 @@ export default ({
           display:block;
           margin-bottom:${trimBottom * -1}px;
           height: 0;   
+        }
+        &:focus{
+          background-color: rgba(0,0,0,0.05);
+          outline:none;
         }
         `}
       >
