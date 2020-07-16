@@ -59,7 +59,8 @@ export default ({
   // essentially bring the line-height back to the computed
   // typeHeight + leadingValue * baseline at line 39.
   // eg XO with InterV should be 300px, but it's 290.94px
-  const paddingTop = 0;
+  const actualHeight = lineHeight - trimTop - trimBottom;
+  const paddingTop = lineHeight - actualHeight;
 
   return (
     <div

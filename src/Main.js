@@ -41,13 +41,17 @@ export default () => {
       <TextBaseline
         font={font}
         baseline={baseline}
-        fontSize={42}
-        leading={1}
+        fontSize={32}
+        leading={2}
         flow={6}
       >
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s.
+        since the 1500s. Lorem Ipsum is simply dummy text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry's standard dummy
+        text ever since the 1500s. Lorem Ipsum is simply dummy text of the
+        printing and typesetting industry. Lorem Ipsum has been the industry's
+        standard dummy text ever since the 1500s.
       </TextBaseline>
     </section>
   );
