@@ -24,9 +24,16 @@ const inputClass = css`
 export default () => {
   //
   const { setFont } = useContext(FontContext);
-  const { baseline, setBaseline, size, setSize, lead, setLead } = useContext(
-    AppContext
-  );
+  const {
+    baseline,
+    setBaseline,
+    size,
+    setSize,
+    lead,
+    setLead,
+    scale,
+    setScale,
+  } = useContext(AppContext);
   //
   useEffect(() => {
     loadURL(defaultFontUrl);
@@ -118,6 +125,22 @@ export default () => {
           max={20}
           step={1}
           onChange={(e) => setBaseline(e.target.value)}
+        />
+      </div>
+      <div
+        className={css`
+          flex: 0 0 5%;
+          overflow: hidden;
+        `}
+      >
+        <input
+          className={inputClass}
+          type="number"
+          value={scale}
+          min={1.1}
+          max={2}
+          step={0.1}
+          onChange={(e) => setScale(e.target.value)}
         />
       </div>
       <div
