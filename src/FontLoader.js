@@ -31,7 +31,9 @@ const gridBtn = css`
   display: block;
   height: 30px;
   width: 60px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 0 0 60px;
   text-align: center;
   color: #2b2b2b;
@@ -124,7 +126,7 @@ export default () => {
       `}
     >
       <button className={gridBtn} onClick={() => setGrid(!grid)}>
-        G
+        R
       </button>
 
       <div
@@ -247,6 +249,14 @@ export default () => {
       <button className={gridBtn} onClick={() => setDark(!dark)}>
         D
       </button>
+      <a
+        className={gridBtn}
+        onClick={() => setDark(!dark)}
+        href="https://github.com/a7sc11u/styled-baseline"
+        target="_blank"
+      >
+        G
+      </a>
     </div>
   );
 };
