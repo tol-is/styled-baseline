@@ -10,13 +10,15 @@ import modularScale from './modular-scale';
 
 export default () => {
   const { font } = useContext(FontContext);
-  const { baseline, size, lead, flow, ratio, grid } = useContext(AppContext);
+  const { dark, baseline, size, lead, flow, ratio, grid } = useContext(
+    AppContext
+  );
 
   if (!font) return null;
 
   let bg = css`
-    background-color: #f8f8f8;
-    color: #212121;
+    background-color: ${dark ? `#060606` : `#FFFFFF`};
+    color: ${dark ? `#FFFFFF` : `#060606`};
     min-height: 100vh;
     padding-top: ${baseline * flow + 4 * baseline}px;
     padding-bottom: ${baseline * flow + 4 * baseline}px;
@@ -26,7 +28,7 @@ export default () => {
     background-size: 100% ${baseline}px;
     ${grid &&
     `background-image: linear-gradient(
-      rgba(0, 0, 0, 0.2) 1px,
+      rgba(255, 107, 107, 0.4) 1px,
       transparent 0
     );`}
   `;

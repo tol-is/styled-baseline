@@ -46,6 +46,8 @@ export default () => {
   //
   const { setFont } = useContext(FontContext);
   const {
+    dark,
+    setDark,
     baseline,
     setBaseline,
     size,
@@ -241,6 +243,9 @@ export default () => {
       </button>
       <button className={inputClass} onClick={() => loadURL(AvertaPE)}>
         Averta
+      </button>
+      <button className={gridBtn} onClick={() => setDark(!dark)}>
+        D
       </button>
     </div>
   );

@@ -14,6 +14,7 @@ const App = () => {
   const [flow, setFlow] = useState(6);
   const [ratio, setRatio] = useState(1.25);
   const [grid, setGrid] = useState(false);
+  const [dark, setDark] = useState(true);
 
   return (
     <FontContext.Provider value={{ font, setFont }}>
@@ -31,6 +32,8 @@ const App = () => {
           setRatio,
           grid,
           setGrid,
+          dark,
+          setDark,
         }}
       >
         <FontLoader />
