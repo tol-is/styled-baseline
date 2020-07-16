@@ -6,13 +6,15 @@ import FontContext from './FontContext';
 import AppContext from './AppContext';
 import TextBaseline from './TextBaseline';
 
+import modularScale from './modular-scale';
+
 export default () => {
   const { font } = useContext(FontContext);
-  const { baseline, size, lead, scale } = useContext(AppContext);
+  const { baseline, size, lead, flow, ratio, grid } = useContext(AppContext);
 
   if (!font) return null;
 
-  let grid = css`
+  let bg = css`
     background-color: #f8f8f8;
     color: #212121;
     min-height: 100vh;
@@ -22,21 +24,24 @@ export default () => {
     padding-right: 80px;
     background-repeat: repeat;
     background-size: 100% ${baseline}px;
-    background-image: linear-gradient(
-      rgba(255, 107, 107, 0.6) 1px,
+    ${grid &&
+    `background-image: linear-gradient(
+      rgba(0, 0, 0, 0.2) 1px,
       transparent 0
-    );
+    );`}
   `;
 
+  const scale = modularScale({ base: size, ratio, interval: 1 });
+
   return (
-    <section className={grid}>
-      {[0, 1, 2, 3, 4].map((v) => (
+    <section className={bg}>
+      {[0, 1, 2, 3, 4].map((v, i) => (
         <TextBaseline
           font={font}
           baseline={baseline}
-          fontSize={size + size * v * scale}
+          fontSize={scale(i)}
           leading={lead}
-          flow={6}
+          flow={flow}
         >
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever

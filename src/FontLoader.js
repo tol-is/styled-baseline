@@ -19,6 +19,27 @@ const inputClass = css`
   height: 30px;
   width: 100%;
   text-align: center;
+  color: #2b2b2b;
+  background-color: white;
+  &.selected {
+    background-color: #2b2b2b;
+    color: white;
+  }
+`;
+
+const gridBtn = css`
+  display: block;
+  height: 30px;
+  width: 60px;
+
+  flex: 0 0 60px;
+  text-align: center;
+  color: #2b2b2b;
+  background-color: white;
+  &.selected {
+    background-color: #2b2b2b;
+    color: white;
+  }
 `;
 
 export default () => {
@@ -31,8 +52,12 @@ export default () => {
     setSize,
     lead,
     setLead,
-    scale,
-    setScale,
+    flow,
+    setFlow,
+    ratio,
+    setRatio,
+    grid,
+    setGrid,
   } = useContext(AppContext);
   //
   useEffect(() => {
@@ -90,30 +115,19 @@ export default () => {
         z-index: 10;
         top: 0;
         width: 100%;
-        background-color: #181818;
-        color: #f8f8f8;
-        font-size: 16px;
+        background-color: white;
         display: flex;
         width: 100%;
         height: 30px;
-        & > * {
-          flex: 1;
-          text-align-center;
-        }
       `}
     >
-      {/* <div
-        className={css`
-          flex: 0 0 10%;
-          overflow: hidden;
-          margin-right: 20px;
-        `}
-      >
-        <input type="file" onChange={onChange} />
-      </div> */}
+      <button className={gridBtn} onClick={() => setGrid(!grid)}>
+        G
+      </button>
+
       <div
         className={css`
-          flex: 0 0 5%;
+          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -129,23 +143,23 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 5%;
+          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
         <input
           className={inputClass}
           type="number"
-          value={scale}
+          value={ratio}
           min={1.1}
           max={2}
-          step={0.1}
-          onChange={(e) => setScale(e.target.value)}
+          step={0.05}
+          onChange={(e) => setRatio(e.target.value)}
         />
       </div>
       <div
         className={css`
-          flex: 0 0 5%;
+          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -161,7 +175,7 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 5%;
+          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -175,7 +189,47 @@ export default () => {
           onChange={(e) => setLead(e.target.value)}
         />
       </div>
-
+      <div
+        className={css`
+          flex: 0 0 60px;
+          overflow: hidden;
+        `}
+      >
+        <input
+          className={inputClass}
+          type="number"
+          value={flow}
+          min={0}
+          max={10}
+          step={1}
+          onChange={(e) => setFlow(e.target.value)}
+        />
+      </div>
+      <div
+        className={css`
+          flex: 0 0 60px;
+          overflow: hidden;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <input
+          type="file"
+          onChange={onChange}
+          className={css`
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+          `}
+        />
+        F
+      </div>
       <button className={inputClass} onClick={() => loadURL(Inter)}>
         InterV
       </button>

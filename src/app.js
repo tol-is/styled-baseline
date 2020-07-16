@@ -8,10 +8,12 @@ import Main from './Main';
 
 const App = () => {
   const [font, setFont] = useState();
-  const [baseline, setBaseline] = useState(12);
+  const [baseline, setBaseline] = useState(8);
   const [size, setSize] = useState(16);
-  const [lead, setLead] = useState(1);
-  const [scale, setScale] = useState(1.25);
+  const [lead, setLead] = useState(2);
+  const [flow, setFlow] = useState(6);
+  const [ratio, setRatio] = useState(1.25);
+  const [grid, setGrid] = useState(false);
 
   return (
     <FontContext.Provider value={{ font, setFont }}>
@@ -23,8 +25,12 @@ const App = () => {
           setSize,
           lead,
           setLead,
-          scale,
-          setScale,
+          flow,
+          setFlow,
+          ratio,
+          setRatio,
+          grid,
+          setGrid,
         }}
       >
         <FontLoader />
