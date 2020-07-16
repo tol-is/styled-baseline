@@ -52,8 +52,6 @@ export default ({
   const trimTop = ascentRatio * fontSize - lineHeightOffset;
   const trimBottom = descentRatio * fontSize - lineHeightOffset;
 
-  // 1.0311404413
-
   // trying to compute a padding top value
   // to realign the type to the baseline grid
   // essentially bring the line-height back to the computed
