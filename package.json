@@ -9,6 +9,7 @@
     "emotion": "^10.0.17",
     "fontkit": "^1.8.0",
     "lodash": "^4.17.4",
+    "parcel-plugin-static-files-copy": "^2.4.3",
     "preact": "^10.0.0"
   },
   "devDependencies": {
