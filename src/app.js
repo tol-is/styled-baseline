@@ -9,10 +9,14 @@ import Main from './Main';
 const App = () => {
   const [font, setFont] = useState();
   const [baseline, setBaseline] = useState(12);
+  const [size, setSize] = useState(42);
+  const [lead, setLead] = useState(1);
 
   return (
     <FontContext.Provider value={{ font, setFont }}>
-      <AppContext.Provider value={{ baseline, setBaseline }}>
+      <AppContext.Provider
+        value={{ baseline, setBaseline, size, setSize, lead, setLead }}
+      >
         <FontLoader />
         {font && <Main />}
       </AppContext.Provider>

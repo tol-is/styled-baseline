@@ -8,7 +8,7 @@ import TextBaseline from './TextBaseline';
 
 export default () => {
   const { font } = useContext(FontContext);
-  const { baseline } = useContext(AppContext);
+  const { baseline, size, lead } = useContext(AppContext);
 
   if (!font) return null;
 
@@ -17,6 +17,7 @@ export default () => {
     color: #212121;
     min-height: 100vh;
     padding-top: ${baseline * 8}px;
+    padding-bottom: ${baseline * 8}px;
     padding-left: 80px;
     padding-right: 80px;
     background-repeat: repeat;
@@ -32,26 +33,18 @@ export default () => {
       <TextBaseline
         font={font}
         baseline={baseline}
-        fontSize={400}
-        leading={0}
-        flow={6}
-      >
-        XO
-      </TextBaseline>
-      <TextBaseline
-        font={font}
-        baseline={baseline}
-        fontSize={32}
-        leading={2}
-        flow={6}
+        fontSize={size}
+        leading={lead}
       >
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s. Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry's standard dummy
-        text ever since the 1500s. Lorem Ipsum is simply dummy text of the
-        printing and typesetting industry. Lorem Ipsum has been the industry's
-        standard dummy text ever since the 1500s.
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
       </TextBaseline>
     </section>
   );

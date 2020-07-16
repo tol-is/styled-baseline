@@ -9,17 +9,24 @@ import FontContext from './FontContext';
 import AppContext from './AppContext';
 
 import FiraCode from './fonts/FiraCode-Regular.otf';
-import Averta from './fonts/Averta-Bold.otf';
 import Cera from './fonts/Cera-Regular.ttf';
 import AvertaPE from './fonts/AvertaPE-Regular.otf';
 import Inter from './fonts/Inter.otf';
 
 const defaultFontUrl = Inter;
 
+const inputClass = css`
+  height: 30px;
+  width: 100%;
+  text-align: center;
+`;
+
 export default () => {
   //
   const { setFont } = useContext(FontContext);
-  const { baseline, setBaseline } = useContext(AppContext);
+  const { baseline, setBaseline, size, setSize, lead, setLead } = useContext(
+    AppContext
+  );
   //
   useEffect(() => {
     loadURL(defaultFontUrl);
@@ -88,7 +95,7 @@ export default () => {
         }
       `}
     >
-      <div
+      {/* <div
         className={css`
           flex: 0 0 10%;
           overflow: hidden;
@@ -96,15 +103,15 @@ export default () => {
         `}
       >
         <input type="file" onChange={onChange} />
-      </div>
+      </div> */}
       <div
         className={css`
           flex: 0 0 5%;
           overflow: hidden;
-          margin-right: 20px;
         `}
       >
         <input
+          className={inputClass}
           type="number"
           value={baseline}
           min={2}
@@ -113,12 +120,51 @@ export default () => {
           onChange={(e) => setBaseline(e.target.value)}
         />
       </div>
+      <div
+        className={css`
+          flex: 0 0 5%;
+          overflow: hidden;
+        `}
+      >
+        <input
+          className={inputClass}
+          type="number"
+          value={size}
+          min={12}
+          max={400}
+          step={1}
+          onChange={(e) => setSize(e.target.value)}
+        />
+      </div>
+      <div
+        className={css`
+          flex: 0 0 5%;
+          overflow: hidden;
+        `}
+      >
+        <input
+          className={inputClass}
+          type="number"
+          value={lead}
+          min={-5}
+          max={5}
+          step={1}
+          onChange={(e) => setLead(e.target.value)}
+        />
+      </div>
 
-      <button onClick={() => loadURL(Inter)}>InterV</button>
-      <button onClick={() => loadURL(FiraCode)}>FiraCode</button>
-      <button onClick={() => loadURL(Cera)}>Cera</button>
-      <button onClick={() => loadURL(Averta)}>Averta Bold</button>
-      <button onClick={() => loadURL(AvertaPE)}>AvertaPE Reg</button>
+      <button className={inputClass} onClick={() => loadURL(Inter)}>
+        InterV
+      </button>
+      <button className={inputClass} onClick={() => loadURL(FiraCode)}>
+        FiraCode
+      </button>
+      <button className={inputClass} onClick={() => loadURL(Cera)}>
+        Cera
+      </button>
+      <button className={inputClass} onClick={() => loadURL(AvertaPE)}>
+        Averta
+      </button>
     </div>
   );
 };
