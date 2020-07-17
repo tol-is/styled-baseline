@@ -9,7 +9,6 @@ import FontContext from './FontContext';
 import AppContext from './AppContext';
 
 import FiraCode from './fonts/FiraCode-Regular.otf';
-import Cera from './fonts/Cera-Regular.ttf';
 import AvertaPE from './fonts/AvertaPE-Regular.otf';
 import Inter from './fonts/Inter.otf';
 
@@ -34,7 +33,6 @@ const gridBtn = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 0 0 60px;
   text-align: center;
   color: #2b2b2b;
   background-color: white;
@@ -112,7 +110,7 @@ export default () => {
   };
 
   return (
-    <div
+    <header
       className={css`
         font-family: system-ui;
         position: fixed;
@@ -123,15 +121,20 @@ export default () => {
         display: flex;
         width: 100%;
         height: 30px;
+        & > * {
+          flex: 1;
+        }
       `}
     >
+      <button className={gridBtn} onClick={() => setDark(!dark)}>
+        D
+      </button>
       <button className={gridBtn} onClick={() => setGrid(!grid)}>
         R
       </button>
 
       <div
         className={css`
-          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -147,7 +150,6 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -163,7 +165,6 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -179,7 +180,6 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -195,7 +195,6 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 60px;
           overflow: hidden;
         `}
       >
@@ -211,7 +210,6 @@ export default () => {
       </div>
       <div
         className={css`
-          flex: 0 0 60px;
           overflow: hidden;
           position: relative;
           display: flex;
@@ -232,31 +230,26 @@ export default () => {
             z-index: 1;
           `}
         />
-        F
+        FU
       </div>
       <button className={inputClass} onClick={() => loadURL(Inter)}>
-        InterV
+        F1
       </button>
       <button className={inputClass} onClick={() => loadURL(FiraCode)}>
-        FiraCode
-      </button>
-      <button className={inputClass} onClick={() => loadURL(Cera)}>
-        Cera
+        F2
       </button>
       <button className={inputClass} onClick={() => loadURL(AvertaPE)}>
-        Averta
+        F3
       </button>
-      <button className={gridBtn} onClick={() => setDark(!dark)}>
-        D
-      </button>
+
       <a
         className={gridBtn}
         onClick={() => setDark(!dark)}
         href="https://github.com/a7sc11u/styled-baseline"
         target="_blank"
       >
-        G
+        GH
       </a>
-    </div>
+    </header>
   );
 };
