@@ -16,9 +16,10 @@ const defaultFontUrl = Inter;
 
 const inputClass = css`
   height: 30px;
-  width: 100%;
   text-align: center;
   color: #2b2b2b;
+  width: 100%;
+  padding: 0;
   background-color: white;
   &.selected {
     background-color: #2b2b2b;
@@ -29,7 +30,7 @@ const inputClass = css`
 const gridBtn = css`
   display: block;
   height: 30px;
-  width: 60px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,11 +119,12 @@ export default () => {
         top: 0;
         width: 100%;
         background-color: white;
-        display: flex;
+        display: grid;
         width: 100%;
         height: 30px;
+        grid-template-columns: repeat(12, minmax(auto, 1fr));
         & > * {
-          flex: 1;
+          grid-column: span 1;
         }
       `}
     >
@@ -212,6 +214,7 @@ export default () => {
         className={css`
           overflow: hidden;
           position: relative;
+          width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
