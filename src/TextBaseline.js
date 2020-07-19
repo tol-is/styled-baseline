@@ -1,71 +1,67 @@
 import { h } from 'preact';
 import { css } from 'emotion';
 
-// TODO
-const preventCollapse = 0.02;
+const preventCollapse = 1;
 
 export default ({
   children,
   font,
   fontSize,
   baseline = 8,
-  leading = 0,
+  leading = null,
   flow = 0,
+  snap = true,
 }) => {
-  const {
-    familyName,
-    capHeight,
-    ascent,
-    descent,
-    unitsPerEm: upm,
-    lineGap,
-  } = font;
-
   // ratios
-  const descentAbs = Math.abs(descent);
-  const capHeightRatio = capHeight / upm;
-  const ascentRatio = (ascent - capHeight) / upm;
-  const descentRatio = descentAbs / upm;
+  const descentAbs = Math.abs(font.descent);
+  const capHeightRatio = font.capHeight / font.unitsPerEm;
+  const ascentRatio = (font.ascent - font.capHeight) / font.unitsPerEm;
+  const descentRatio = descentAbs / font.unitsPerEm;
 
-  // content area
-  const emSquare = ascent + descentAbs + lineGap;
-  const boundingBoxHeight = (emSquare / upm) * fontSize;
+  // bounding box
+  const boundingBox = font.ascent + descentAbs + font.lineGap;
+  const boundingBoxHeight = (boundingBox / font.unitsPerEm) * fontSize;
 
-  // type
+  // type height
   const capSize = capHeightRatio * fontSize;
   const typeRows = Math.ceil(capSize / baseline);
-  const typeHeight = typeRows * baseline;
+  const typeHeight = snap ? typeRows * baseline : capSize;
 
   // leading
-  const leadingRound = Math.round(leading);
-  const leadingValue =
-    leadingRound < 0
-      ? Math.min(Math.abs(leadingRound), typeRows) * -1
-      : leadingRound;
+  const leadingValue = snap ? Math.round(leading) : leading;
+  const minLeading = snap ? typeRows : typeHeight;
+  const typeLeading =
+    leading < 0 ? Math.max(leadingValue, minLeading * -1) : leadingValue;
 
   // line height
-  const lineHeight = typeHeight + leadingValue * baseline;
+  const typeLineGap = typeLeading * baseline;
+  const typeLineHeight = typeHeight + typeLineGap;
 
   // leading trim
-  const lineGapHeight = (lineGap / upm) * fontSize;
-  const lineHeightOffset = (boundingBoxHeight - lineHeight - lineGapHeight) / 2;
+  const lineGapHeight = (font.lineGap / font.unitsPerEm) * fontSize;
+  const lineHeightOffset =
+    (boundingBoxHeight - typeLineHeight - lineGapHeight) / 2;
+
   const trimTop = ascentRatio * fontSize - lineHeightOffset;
   const trimBottom = descentRatio * fontSize - lineHeightOffset;
 
   // align to baseline
-  const paddingTop = preventCollapse + ((trimBottom + trimTop) % baseline);
+  const paddingTop = snap
+    ? preventCollapse + ((trimBottom + trimTop) % baseline)
+    : preventCollapse;
+
+  // TODO useEmRem and unitless lh
 
   return (
     <span
       data-gramm_editor="false"
       contentEditable
       className={css`
-        display: inline-block;
-   
-        font-family: '${familyName}';
+        display: block;
+        font-family: '${font.familyName}';
         font-weight: ${font['OS/2'].usWeightClass};
         font-size: ${fontSize}px;
-        line-height: ${lineHeight}px;
+        line-height: ${typeLineHeight}px;
         padding-top: ${paddingTop}px;
         padding-bottom: ${preventCollapse}px;
         margin-bottom: ${flow * baseline}px;
@@ -82,7 +78,6 @@ export default ({
           height: 0;   
         }
         &:focus{
-          background-color: rgba(0,0,0,0.05);
           outline:none;
         }
         `}

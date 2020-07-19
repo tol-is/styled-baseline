@@ -3,7 +3,7 @@ import { useState } from 'preact/hooks';
 
 import FontContext from './FontContext';
 import AppContext from './AppContext';
-import FontLoader from './FontLoader';
+import AppHeader from './AppHeader';
 import Main from './Main';
 
 const App = () => {
@@ -13,8 +13,21 @@ const App = () => {
   const [lead, setLead] = useState(2);
   const [flow, setFlow] = useState(6);
   const [ratio, setRatio] = useState(1.25);
+  const [snap, setSnap] = useState(true);
   const [grid, setGrid] = useState(false);
   const [dark, setDark] = useState(true);
+
+  const handleSnapChange = (snap) => {
+    if (!snap) {
+      setGrid(false);
+    }
+
+    if (snap) {
+      setLead(Math.round(lead));
+    }
+
+    setSnap(snap);
+  };
 
   return (
     <FontContext.Provider value={{ font, setFont }}>
@@ -24,6 +37,8 @@ const App = () => {
           setBaseline,
           size,
           setSize,
+          snap,
+          setSnap: handleSnapChange,
           lead,
           setLead,
           flow,
@@ -36,7 +51,7 @@ const App = () => {
           setDark,
         }}
       >
-        <FontLoader />
+        <AppHeader />
         {font && <Main />}
       </AppContext.Provider>
     </FontContext.Provider>

@@ -8,8 +8,6 @@ import blobToBuffer from 'blob-to-buffer';
 import FontContext from './FontContext';
 import AppContext from './AppContext';
 
-import FiraCode from './fonts/FiraCode-Regular.otf';
-import AvertaPE from './fonts/AvertaPE-Regular.otf';
 import Inter from './fonts/Inter.otf';
 
 const defaultFontUrl = Inter;
@@ -53,6 +51,8 @@ export default () => {
     setBaseline,
     size,
     setSize,
+    snap,
+    setSnap,
     lead,
     setLead,
     flow,
@@ -122,7 +122,7 @@ export default () => {
         display: grid;
         width: 100%;
         height: 30px;
-        grid-template-columns: repeat(12, minmax(auto, 1fr));
+        grid-template-columns: repeat(10, minmax(auto, 1fr));
         & > * {
           grid-column: span 1;
         }
@@ -131,7 +131,44 @@ export default () => {
       <button className={gridBtn} onClick={() => setDark(!dark)}>
         D
       </button>
-      <button className={gridBtn} onClick={() => setGrid(!grid)}>
+      <div
+        className={css`
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <input
+          type="file"
+          onChange={onChange}
+          className={css`
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+          `}
+        />
+        F
+      </div>
+      <button
+        className={gridBtn}
+        onClick={() => {
+          setSnap(!snap);
+        }}
+      >
+        A
+      </button>
+      <button
+        disabled={!snap}
+        className={gridBtn}
+        onClick={() => setGrid(!grid)}
+      >
         R
       </button>
 
@@ -158,11 +195,11 @@ export default () => {
         <input
           className={inputClass}
           type="number"
-          value={ratio}
-          min={1.1}
-          max={2}
-          step={0.05}
-          onChange={(e) => setRatio(e.target.value)}
+          value={lead}
+          min={-12}
+          max={12}
+          step={!snap ? 0.1 : 1}
+          onChange={(e) => setLead(e.target.value)}
         />
       </div>
       <div
@@ -180,6 +217,7 @@ export default () => {
           onChange={(e) => setSize(e.target.value)}
         />
       </div>
+
       <div
         className={css`
           overflow: hidden;
@@ -188,13 +226,14 @@ export default () => {
         <input
           className={inputClass}
           type="number"
-          value={lead}
-          min={-5}
-          max={5}
-          step={1}
-          onChange={(e) => setLead(e.target.value)}
+          value={ratio}
+          min={1.1}
+          max={2}
+          step={0.05}
+          onChange={(e) => setRatio(e.target.value)}
         />
       </div>
+
       <div
         className={css`
           overflow: hidden;
@@ -210,40 +249,6 @@ export default () => {
           onChange={(e) => setFlow(e.target.value)}
         />
       </div>
-      <div
-        className={css`
-          overflow: hidden;
-          position: relative;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        `}
-      >
-        <input
-          type="file"
-          onChange={onChange}
-          className={css`
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-          `}
-        />
-        FU
-      </div>
-      <button className={inputClass} onClick={() => loadURL(Inter)}>
-        F1
-      </button>
-      <button className={inputClass} onClick={() => loadURL(FiraCode)}>
-        F2
-      </button>
-      <button className={inputClass} onClick={() => loadURL(AvertaPE)}>
-        F3
-      </button>
 
       <a
         className={gridBtn}

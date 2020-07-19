@@ -10,7 +10,7 @@ import modularScale from './modular-scale';
 
 export default () => {
   const { font } = useContext(FontContext);
-  const { dark, baseline, size, lead, flow, ratio, grid } = useContext(
+  const { dark, baseline, size, snap, lead, flow, ratio, grid } = useContext(
     AppContext
   );
 
@@ -44,6 +44,7 @@ export default () => {
           fontSize={scale(i)}
           leading={lead}
           flow={flow}
+          snap={snap}
         >
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
