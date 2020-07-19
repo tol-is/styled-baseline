@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { css } from 'emotion';
 
 // TODO
-const preventCollapse = 0.001;
+const preventCollapse = 0.02;
 
 export default ({
   children,
@@ -52,13 +52,8 @@ export default ({
   const trimTop = ascentRatio * fontSize - lineHeightOffset;
   const trimBottom = descentRatio * fontSize - lineHeightOffset;
 
-  // trying to compute a padding top value
-  // to realign the type to the baseline grid
-  // essentially bring the line-height back to the computed
-  // typeHeight + leadingValue * baseline at line 39.
-  // eg XO with InterV should be 300px, but it's 290.94px
-  const actualHeight = lineHeight - trimTop - trimBottom;
-  const paddingTop = (lineHeight - actualHeight) % baseline;
+  // align to baseline
+  const paddingTop = preventCollapse + ((trimBottom + trimTop) % baseline);
 
   return (
     <span
@@ -77,13 +72,13 @@ export default ({
         &:before{
           content: '';
           display:block;
-          margin-top:${trimTop * -1}px;
+          margin-top:${trimTop * -1 - preventCollapse}px;
           height: 0;   
         }
         &:after{
           content: '';
           display:block;
-          margin-bottom:${trimBottom * -1}px;
+          margin-bottom:${trimBottom * -1 - preventCollapse}px;
           height: 0;   
         }
         &:focus{

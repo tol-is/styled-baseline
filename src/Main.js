@@ -37,7 +37,7 @@ export default () => {
 
   return (
     <section className={bg}>
-      {[0, 1, 2, 3, 4].map((v, i) => (
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, i) => (
         <TextBaseline
           font={font}
           baseline={baseline}
