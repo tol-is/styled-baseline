@@ -15,13 +15,10 @@ const App = () => {
   const [ratio, setRatio] = useState(1.25);
   const [snap, setSnap] = useState(true);
   const [grid, setGrid] = useState(false);
+  const [debug, setDebug] = useState(false);
   const [dark, setDark] = useState(true);
 
   const handleSnapChange = (snap) => {
-    if (!snap) {
-      setGrid(false);
-    }
-
     if (snap) {
       setLead(Math.round(lead));
     }
@@ -47,6 +44,8 @@ const App = () => {
           setRatio,
           grid,
           setGrid,
+          debug,
+          setDebug,
           dark,
           setDark,
         }}

@@ -11,6 +11,8 @@ export default ({
   leading = null,
   flow = 0,
   snap = true,
+  dark = true,
+  debug = false,
 }) => {
   // ratios
   const descentAbs = Math.abs(font.descent);
@@ -65,6 +67,13 @@ export default ({
         padding-top: ${paddingTop}px;
         padding-bottom: ${preventCollapse}px;
         margin-bottom: ${flow * baseline}px;
+        background-color: ${
+          !debug
+            ? 'transparent'
+            : dark
+            ? 'rgba(255, 0, 107,0.3)'
+            : 'rgba(255, 0, 107,0.1)'
+        };
         &:before{
           content: '';
           display:block;
@@ -83,6 +92,7 @@ export default ({
         `}
     >
       {children}
+      {dark}
     </span>
   );
 };

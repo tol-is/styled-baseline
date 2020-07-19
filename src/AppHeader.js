@@ -35,9 +35,8 @@ const gridBtn = css`
   text-align: center;
   color: #2b2b2b;
   background-color: white;
-  &.selected {
-    background-color: #2b2b2b;
-    color: white;
+  &:disabled {
+    color: #ccc;
   }
 `;
 
@@ -61,6 +60,8 @@ export default () => {
     setRatio,
     grid,
     setGrid,
+    debug,
+    setDebug,
   } = useContext(AppContext);
   //
   useEffect(() => {
@@ -122,7 +123,7 @@ export default () => {
         display: grid;
         width: 100%;
         height: 30px;
-        grid-template-columns: repeat(10, minmax(auto, 1fr));
+        grid-template-columns: repeat(11, minmax(auto, 1fr));
         & > * {
           grid-column: span 1;
         }
@@ -156,21 +157,6 @@ export default () => {
         />
         F
       </div>
-      <button
-        className={gridBtn}
-        onClick={() => {
-          setSnap(!snap);
-        }}
-      >
-        A
-      </button>
-      <button
-        disabled={!snap}
-        className={gridBtn}
-        onClick={() => setGrid(!grid)}
-      >
-        R
-      </button>
 
       <div
         className={css`
@@ -217,7 +203,6 @@ export default () => {
           onChange={(e) => setSize(e.target.value)}
         />
       </div>
-
       <div
         className={css`
           overflow: hidden;
@@ -233,7 +218,6 @@ export default () => {
           onChange={(e) => setRatio(e.target.value)}
         />
       </div>
-
       <div
         className={css`
           overflow: hidden;
@@ -249,7 +233,24 @@ export default () => {
           onChange={(e) => setFlow(e.target.value)}
         />
       </div>
-
+      <button
+        className={gridBtn}
+        onClick={() => {
+          setSnap(!snap);
+        }}
+      >
+        A
+      </button>
+      <button
+        disabled={!snap}
+        className={gridBtn}
+        onClick={() => setGrid(!grid)}
+      >
+        R
+      </button>
+      <button className={gridBtn} onClick={() => setDebug(!debug)}>
+        B
+      </button>
       <a
         className={gridBtn}
         onClick={() => setDark(!dark)}

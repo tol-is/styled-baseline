@@ -10,9 +10,17 @@ import modularScale from './modular-scale';
 
 export default () => {
   const { font } = useContext(FontContext);
-  const { dark, baseline, size, snap, lead, flow, ratio, grid } = useContext(
-    AppContext
-  );
+  const {
+    dark,
+    baseline,
+    size,
+    snap,
+    lead,
+    flow,
+    ratio,
+    grid,
+    debug,
+  } = useContext(AppContext);
 
   if (!font) return null;
 
@@ -27,8 +35,9 @@ export default () => {
     background-repeat: repeat;
     background-size: 100% ${baseline}px;
     ${grid &&
+    snap &&
     `background-image: linear-gradient(
-      rgba(255, 107, 107, 0.4) 1px,
+      rgba(255, 0, 107, ${dark ? 0.2 : 0.2}) 1px,
       transparent 0
     );`}
   `;
@@ -45,6 +54,8 @@ export default () => {
           leading={lead}
           flow={flow}
           snap={snap}
+          dark={dark}
+          debug={debug}
         >
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
