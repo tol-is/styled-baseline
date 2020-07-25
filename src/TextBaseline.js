@@ -52,6 +52,14 @@ export default ({
     ? preventCollapse + ((trimBottom + trimTop) % baseline)
     : preventCollapse;
 
+  const trimTopValue = `${ trimTop * -1 - preventCollapse }px`
+  const trimBottomBalue = `${ trimBottom * -1 - preventCollapse}px`
+
+  const fontSizeValue = `${fontSize}px;`
+  const lineHeightValue = `${typeLineHeight}px;`
+  const paddingTopValue = `${ paddingTop }px`
+  const paddingBottomValue = `${preventCollapse}px`
+
   // TODO useEmRem and unitless lh
 
   return (
@@ -62,10 +70,10 @@ export default ({
         display: block;
         font-family: '${font.familyName}';
         font-weight: ${font['OS/2'].usWeightClass};
-        font-size: ${fontSize}px;
-        line-height: ${typeLineHeight}px;
-        padding-top: ${paddingTop}px;
-        padding-bottom: ${preventCollapse}px;
+        font-size: ${fontSizeValue};
+        line-height: ${lineHeightValue};
+        padding-top: ${paddingTopValue};
+        padding-bottom: ${paddingBottomValue};
         margin-bottom: ${flow * baseline}px;
         background-color: ${
           !debug
@@ -74,17 +82,16 @@ export default ({
             ? 'rgba(255, 0, 107,0.3)'
             : 'rgba(255, 0, 107,0.1)'
         };
-        &:before{
+        &::before, &::after{
           content: '';
           display:block;
-          margin-top:${trimTop * -1 - preventCollapse}px;
           height: 0;
         }
-        &:after{
-          content: '';
-          display:block;
-          margin-bottom:${trimBottom * -1 - preventCollapse}px;
-          height: 0;
+        &::before{
+          margin-top:${trimTopValue};
+        }
+        &::after{
+          margin-bottom:${trimBottomBalue};
         }
         &:focus{
           outline:none;
