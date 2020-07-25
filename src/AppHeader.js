@@ -7,17 +7,36 @@ import blobToBuffer from 'blob-to-buffer';
 
 import FontContext from './FontContext';
 import AppContext from './AppContext';
+import ratios from './ratios';
 
 import Inter from './fonts/Inter.otf';
 
 const defaultFontUrl = Inter;
 
-const inputClass = css`
+const selectClass = css`
+  -webkit-appearance: none;
+    -moz-appearance : none;
   height: 30px;
-  text-align: center;
+  text-align: left;
   color: #2b2b2b;
   width: 100%;
-  padding: 0;
+  padding: 0 8px 0 8px;
+  background-color: white;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+`
+
+const inputClass = css`
+  height: 30px;
+  text-align: left;
+  color: #2b2b2b;
+  width: 100%;
+  padding: 0 8px 0 8px;
   background-color: white;
   &.selected {
     background-color: #2b2b2b;
@@ -30,10 +49,10 @@ const gridBtn = css`
   height: 30px;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: left;
   color: #2b2b2b;
+  padding: 0 0 0 8px;
   background-color: white;
   &:disabled {
     color: #ccc;
@@ -42,7 +61,7 @@ const gridBtn = css`
 
 export default () => {
   //
-  const { setFont } = useContext(FontContext);
+  const { font, setFont } = useContext(FontContext);
   const {
     dark,
     setDark,
@@ -58,6 +77,8 @@ export default () => {
     setFlow,
     ratio,
     setRatio,
+    length,
+    setLength,
     grid,
     setGrid,
     debug,
@@ -120,145 +141,185 @@ export default () => {
         top: 0;
         width: 100%;
         background-color: white;
-        display: grid;
         width: 100%;
-        height: 30px;
-        grid-template-columns: repeat(11, minmax(auto, 1fr));
-        & > * {
-          grid-column: span 1;
-        }
       `}
     >
-      <button className={gridBtn} onClick={() => setDark(!dark)}>
-        D
-      </button>
-      <div
-        className={css`
-          overflow: hidden;
-          position: relative;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        `}
-      >
-        <input
-          type="file"
-          onChange={onChange}
+      <div className={css`
+        display: grid;
+        grid-template-columns: repeat(12, minmax(auto, 1fr));
+        & > * {
+          text-align:left;
+          font-size: 9px;
+          padding: 3px 0 0 8px;
+        }
+      `}>
+      <div>DARK</div>
+      <div>FONT</div>
+      <div>BASELINE</div>
+      <div>LEADING</div>
+      <div>ROOT SIZE</div>
+      <div>SCALE</div>
+      <div>LENGTH</div>
+      <div>V-RHYTHM</div>
+      <div>ALIGN TO GRID</div>
+      <div>RULERS</div>
+      <div>BOUNDING BOX</div>
+      <div></div>
+      </div>
+      <div className={css`
+        height: 30px;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(auto, 1fr));
+      `}>
+        <button className={gridBtn} onClick={() => setDark(!dark)}>
+          D
+        </button>
+        <div
           className={css`
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
+            overflow: hidden;
+            position: relative;
             width: 100%;
-            height: 100%;
-            z-index: 1;
+            display: flex;
+            padding: 0 0 0 8px;
+            align-items: center;
           `}
-        />
-        F
-      </div>
+        >
+          <input
+            type="file"
+            onChange={onChange}
+            className={css`
+              opacity: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+            `}
+          />
+          {font ? font.familyName : "F"}
+        </div>
 
-      <div
-        className={css`
-          overflow: hidden;
-        `}
-      >
-        <input
-          className={inputClass}
-          type="number"
-          value={baseline}
-          min={2}
-          max={20}
-          step={1}
-          onChange={(e) => setBaseline(e.target.value)}
-        />
+        <div
+          className={css`
+            overflow: hidden;
+          `}
+        >
+          <input
+            className={inputClass}
+            type="number"
+            value={baseline}
+            min={2}
+            max={20}
+            step={1}
+            onChange={(e) => setBaseline(e.target.value)}
+          />
+        </div>
+        <div
+          className={css`
+            overflow: hidden;
+          `}
+        >
+          <input
+            className={inputClass}
+            type="number"
+            value={lead}
+            min={-12}
+            max={12}
+            step={!snap ? 0.1 : 1}
+            onChange={(e) => setLead(e.target.value)}
+          />
+        </div>
+        <div
+          className={css`
+            overflow: hidden;
+          `}
+        >
+          <input
+            className={inputClass}
+            type="number"
+            value={size}
+            min={12}
+            max={400}
+            step={1}
+            onChange={(e) => setSize(e.target.value)}
+          />
+        </div>
+        <div
+          className={css`
+            overflow: hidden;
+            position:relative;
+          `}
+        >
+          <select
+            className={selectClass}
+            value={ratio}
+            onChange={(e) => setRatio(e.target.value)}
+          >
+            {Object.keys(ratios).map(k => (
+              <option value={ratios[k]}>{k}</option>
+            ))}
+          </select>
+          <div className={gridBtn}>
+            {ratio}
+          </div>
+        </div>
+        <div
+          className={css`
+            overflow: hidden;
+          `}
+        >
+          <input
+            className={inputClass}
+            type="number"
+            value={length}
+            min={1}
+            max={20}
+            step={1}
+            onChange={(e) => setLength(parseInt(e.target.value))}
+          />
+        </div>
+        <div
+          className={css`
+            overflow: hidden;
+          `}
+        >
+          <input
+            className={inputClass}
+            type="number"
+            value={flow}
+            min={0}
+            max={10}
+            step={1}
+            onChange={(e) => setFlow(e.target.value)}
+          />
+        </div>
+        <button
+          className={gridBtn}
+          onClick={() => {
+            setSnap(!snap);
+          }}
+        >
+          A
+        </button>
+        <button
+          className={gridBtn}
+          onClick={() => setGrid(!grid)}
+        >
+          R
+        </button>
+        <button className={gridBtn} onClick={() => setDebug(!debug)}>
+          B
+        </button>
+        <a
+          className={gridBtn}
+          onClick={() => setDark(!dark)}
+          href="https://github.com/a7sc11u/styled-baseline"
+          target="_blank"
+        >
+          GH
+        </a>
       </div>
-      <div
-        className={css`
-          overflow: hidden;
-        `}
-      >
-        <input
-          className={inputClass}
-          type="number"
-          value={lead}
-          min={-12}
-          max={12}
-          step={!snap ? 0.1 : 1}
-          onChange={(e) => setLead(e.target.value)}
-        />
-      </div>
-      <div
-        className={css`
-          overflow: hidden;
-        `}
-      >
-        <input
-          className={inputClass}
-          type="number"
-          value={size}
-          min={12}
-          max={400}
-          step={1}
-          onChange={(e) => setSize(e.target.value)}
-        />
-      </div>
-      <div
-        className={css`
-          overflow: hidden;
-        `}
-      >
-        <input
-          className={inputClass}
-          type="number"
-          value={ratio}
-          min={1.1}
-          max={2}
-          step={0.05}
-          onChange={(e) => setRatio(e.target.value)}
-        />
-      </div>
-      <div
-        className={css`
-          overflow: hidden;
-        `}
-      >
-        <input
-          className={inputClass}
-          type="number"
-          value={flow}
-          min={0}
-          max={10}
-          step={1}
-          onChange={(e) => setFlow(e.target.value)}
-        />
-      </div>
-      <button
-        className={gridBtn}
-        onClick={() => {
-          setSnap(!snap);
-        }}
-      >
-        A
-      </button>
-      <button
-        disabled={!snap}
-        className={gridBtn}
-        onClick={() => setGrid(!grid)}
-      >
-        R
-      </button>
-      <button className={gridBtn} onClick={() => setDebug(!debug)}>
-        B
-      </button>
-      <a
-        className={gridBtn}
-        onClick={() => setDark(!dark)}
-        href="https://github.com/a7sc11u/styled-baseline"
-        target="_blank"
-      >
-        GH
-      </a>
     </header>
   );
 };

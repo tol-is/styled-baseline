@@ -13,10 +13,11 @@ const App = () => {
   const [lead, setLead] = useState(2);
   const [flow, setFlow] = useState(6);
   const [ratio, setRatio] = useState(1.25);
+  const [length, setLength ] = useState(3);
   const [snap, setSnap] = useState(true);
-  const [grid, setGrid] = useState(false);
+  const [grid, setGrid] = useState(true);
   const [debug, setDebug] = useState(false);
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
 
   const handleSnapChange = (snap) => {
     if (snap) {
@@ -42,6 +43,8 @@ const App = () => {
           setFlow,
           ratio,
           setRatio,
+          length,
+          setLength,
           grid,
           setGrid,
           debug,

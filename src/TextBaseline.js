@@ -26,7 +26,7 @@ export default ({
 
   // type height
   const capSize = capHeightRatio * fontSize;
-  const typeRows = Math.ceil(capSize / baseline);
+  const typeRows = Math.round(capSize / baseline);
   const typeHeight = snap ? typeRows * baseline : capSize;
 
   // leading
@@ -78,13 +78,13 @@ export default ({
           content: '';
           display:block;
           margin-top:${trimTop * -1 - preventCollapse}px;
-          height: 0;   
+          height: 0;
         }
         &:after{
           content: '';
           display:block;
           margin-bottom:${trimBottom * -1 - preventCollapse}px;
-          height: 0;   
+          height: 0;
         }
         &:focus{
           outline:none;

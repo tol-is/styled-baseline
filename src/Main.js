@@ -18,24 +18,26 @@ export default () => {
     lead,
     flow,
     ratio,
+    length,
     grid,
     debug,
   } = useContext(AppContext);
 
   if (!font) return null;
 
+  const minHeight = Math.ceil(30 / baseline);
+
   let bg = css`
     background-color: ${dark ? `#060606` : `#FFFFFF`};
     color: ${dark ? `#FFFFFF` : `#060606`};
     min-height: 100vh;
-    padding-top: ${baseline * flow + 4 * baseline}px;
-    padding-bottom: ${baseline * flow + 4 * baseline}px;
+    padding-top: ${baseline * 1 + baseline * flow + minHeight * baseline}px;
+    padding-bottom: ${baseline * flow + minHeight * baseline}px;
     padding-left: 5vw;
     padding-right: 5vw;
     background-repeat: repeat;
     background-size: 100% ${baseline}px;
     ${grid &&
-    snap &&
     `background-image: linear-gradient(
       rgba(255, 0, 107, ${dark ? 0.2 : 0.2}) 1px,
       transparent 0
@@ -46,7 +48,7 @@ export default () => {
 
   return (
     <section className={bg}>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, i) => (
+      {Array.from(new Array(length)).map((v,i) => (
         <TextBaseline
           font={font}
           baseline={baseline}
