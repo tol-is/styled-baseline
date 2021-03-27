@@ -13,19 +13,17 @@ export const modularScale = ({
 };
 
 export const carbonScale = (params = {}) => {
-  const { base = 8, length = 6, intervals = 4, increment = 2 } = params;
+  const { base = 8, intervals = 4, increment = 2 } = params;
 
-  const getStep = (count) => {
-    if (count <= 1) {
+  function getStep(step) {
+    if (step <= 1) {
       return base;
     }
 
     return (
-      getStep(count - 1) + Math.floor((count - 2) / intervals + 1) * increment
+      getStep(step - 1) + Math.floor((step - 2) / intervals + 1) * increment
     );
-  };
+  }
 
-  return (step) => getStep(step + 1);
+  return (v) => getStep(v + 1);
 };
-
-export default modularScale;

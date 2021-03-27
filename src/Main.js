@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useContext } from "preact/hooks";
+import { useContext, useMemo } from "preact/hooks";
 import { css } from "emotion";
 
 import FontContext from "./FontContext";
@@ -44,10 +44,11 @@ export default () => {
     );`}
   `;
 
-  const scale =
-    ratio === "IBM Carbon"
-      ? carbonScale({ base: size, length: length })
+  const scale = useMemo(() => {
+    return ratio === "IBM Carbon"
+      ? carbonScale({ base: parseInt(size), length: length })
       : modularScale({ base: size, ratio });
+  }, [size, length, ratio, baseline]);
 
   return (
     <section className={bg}>
