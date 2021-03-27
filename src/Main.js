@@ -59,18 +59,17 @@ export default () => {
           dark={dark}
           debug={debug}
         >
-          Ex sit eiusmod enim veniam exercitation tempor aliquip in aute
-          cupidatat commodo. Magna deserunt eiusmod nostrud proident. Sit est
-          duis cupidatat amet aliquip anim in esse et nulla velit ullamco.Mollit
-          anim non anim amet incididunt velit ex irure. Reprehenderit quis anim
-          do sint excepteur. Tempor cupidatat occaecat nisi ullamco culpa nisi
-          commodo culpa tempor. Anim sunt elit consequat ullamco aute dolor
-          proident dolor tempor magna velit. Quis adipisicing id incididunt qui
-          adipisicing. Eiusmod consectetur mollit ad nisi.
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
         </TextBaseline>
       ))}
     </section>
   );
 };
-
-//

@@ -9,7 +9,7 @@ import FontContext from "./FontContext";
 import AppContext from "./AppContext";
 import ratios from "./ratios";
 
-import Inter from "./fonts/AvertaPE-Regular.otf";
+import Inter from "./fonts/Inter.otf";
 
 const defaultFontUrl = Inter;
 

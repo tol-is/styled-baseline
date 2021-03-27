@@ -8,16 +8,16 @@ import Main from "./Main";
 
 const App = () => {
   const [font, setFont] = useState();
-  const [baseline, setBaseline] = useState(16);
-  const [size, setSize] = useState(16);
-  const [lead, setLead] = useState(1);
+  const [baseline, setBaseline] = useState(8);
+  const [size, setSize] = useState(18);
+  const [lead, setLead] = useState(2);
   const [flow, setFlow] = useState(6);
   const [ratio, setRatio] = useState(1.25);
   const [length, setLength] = useState(6);
   const [snap, setSnap] = useState(true);
   const [grid, setGrid] = useState(false);
   const [debug, setDebug] = useState(false);
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
 
   const handleSnapChange = (snap) => {
     if (snap) {
