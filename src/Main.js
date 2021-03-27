@@ -6,7 +6,7 @@ import FontContext from "./FontContext";
 import AppContext from "./AppContext";
 import TextBaseline from "./TextBaseline";
 
-import modularScale from "./modular-scale";
+import { modularScale, carbonScale } from "./scales";
 
 export default () => {
   const { font } = useContext(FontContext);
@@ -44,7 +44,10 @@ export default () => {
     );`}
   `;
 
-  const scale = modularScale({ base: size, ratio, interval: 1 });
+  const scale =
+    ratio === "IBM Carbon"
+      ? carbonScale({ base: size, length: length })
+      : modularScale({ base: size, ratio });
 
   return (
     <section className={bg}>
