@@ -8,7 +8,7 @@ export const modularScale = ({
   return (step) => {
     const v = Math.floor(base * Math.pow(ratio, step / interval));
 
-    return v + (v % 2);
+    return v; //v + (v % 2);
   };
 };
 
