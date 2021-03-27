@@ -1,21 +1,21 @@
-import { Component, h } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
-import { css, injectGlobal } from 'emotion';
-import fontkit from 'fontkit';
+import { Component, h } from "preact";
+import { useContext, useEffect, useState } from "preact/hooks";
+import { css, injectGlobal } from "emotion";
+import fontkit from "fontkit";
 
-import blobToBuffer from 'blob-to-buffer';
+import blobToBuffer from "blob-to-buffer";
 
-import FontContext from './FontContext';
-import AppContext from './AppContext';
-import ratios from './ratios';
+import FontContext from "./FontContext";
+import AppContext from "./AppContext";
+import ratios from "./ratios";
 
-import Inter from './fonts/Inter.otf';
+import Inter from "./fonts/AvertaPE-Regular.otf";
 
 const defaultFontUrl = Inter;
 
 const selectClass = css`
   -webkit-appearance: none;
-    -moz-appearance : none;
+  -moz-appearance: none;
   height: 30px;
   text-align: left;
   color: #2b2b2b;
@@ -29,7 +29,7 @@ const selectClass = css`
   width: 100%;
   height: 100%;
   z-index: 1;
-`
+`;
 
 const inputClass = css`
   height: 30px;
@@ -125,7 +125,7 @@ export default () => {
       @font-face {
         font-family: '${font.familyName}';
         font-style: normal;
-        font-weight: ${font['OS/2'].usWeightClass};
+        font-weight: ${font["OS/2"].usWeightClass};
         src: url('${fontData}')
             format('opentype');
       }
@@ -144,33 +144,37 @@ export default () => {
         width: 100%;
       `}
     >
-      <div className={css`
-        display: grid;
-        grid-template-columns: repeat(12, minmax(auto, 1fr));
-        & > * {
-          text-align:left;
-          font-size: 9px;
-          padding: 3px 0 0 8px;
-        }
-      `}>
-      <div>DARK</div>
-      <div>FONT</div>
-      <div>BASELINE</div>
-      <div>LEADING</div>
-      <div>ROOT SIZE</div>
-      <div>SCALE</div>
-      <div>LENGTH</div>
-      <div>V-RHYTHM</div>
-      <div>ALIGN TO GRID</div>
-      <div>RULERS</div>
-      <div>BOUNDING BOX</div>
-      <div></div>
+      <div
+        className={css`
+          display: grid;
+          grid-template-columns: repeat(12, minmax(auto, 1fr));
+          & > * {
+            text-align: left;
+            font-size: 9px;
+            padding: 3px 0 0 8px;
+          }
+        `}
+      >
+        <div>DARK</div>
+        <div>FONT</div>
+        <div>BASELINE</div>
+        <div>LEADING</div>
+        <div>ROOT SIZE</div>
+        <div>SCALE</div>
+        <div>LENGTH</div>
+        <div>V-RHYTHM</div>
+        <div>ALIGN TO GRID</div>
+        <div>RULERS</div>
+        <div>BOUNDING BOX</div>
+        <div></div>
       </div>
-      <div className={css`
-        height: 30px;
-        display: grid;
-        grid-template-columns: repeat(12, minmax(auto, 1fr));
-      `}>
+      <div
+        className={css`
+          height: 30px;
+          display: grid;
+          grid-template-columns: repeat(12, minmax(auto, 1fr));
+        `}
+      >
         <button className={gridBtn} onClick={() => setDark(!dark)}>
           D
         </button>
@@ -248,7 +252,7 @@ export default () => {
         <div
           className={css`
             overflow: hidden;
-            position:relative;
+            position: relative;
           `}
         >
           <select
@@ -256,13 +260,11 @@ export default () => {
             value={ratio}
             onChange={(e) => setRatio(e.target.value)}
           >
-            {Object.keys(ratios).map(k => (
+            {Object.keys(ratios).map((k) => (
               <option value={ratios[k]}>{k}</option>
             ))}
           </select>
-          <div className={gridBtn}>
-            {ratio}
-          </div>
+          <div className={gridBtn}>{ratio}</div>
         </div>
         <div
           className={css`
@@ -302,10 +304,7 @@ export default () => {
         >
           A
         </button>
-        <button
-          className={gridBtn}
-          onClick={() => setGrid(!grid)}
-        >
+        <button className={gridBtn} onClick={() => setGrid(!grid)}>
           R
         </button>
         <button className={gridBtn} onClick={() => setDebug(!debug)}>

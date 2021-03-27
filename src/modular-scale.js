@@ -1,4 +1,4 @@
-import { RATIOS } from './ratios';
+import { RATIOS } from "./ratios";
 
 export const modularScale = ({
   base = 16,
@@ -6,7 +6,9 @@ export const modularScale = ({
   interval = 2,
 }) => {
   return (step) => {
-    return Math.floor(base * Math.pow(ratio, step / interval));
+    const v = Math.floor(base * Math.pow(ratio, step / interval));
+
+    return v + (v % 2);
   };
 };
 

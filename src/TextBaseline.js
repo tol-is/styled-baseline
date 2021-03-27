@@ -1,7 +1,30 @@
-import { h } from 'preact';
-import { css } from 'emotion';
+import { h } from "preact";
+import { css } from "emotion";
 
-const preventCollapse = 1;
+const PRECISION = 4;
+
+function roundTo(number, precision) {
+  if (typeof number !== "number") {
+    throw new TypeError("Expected value to be a number");
+  }
+
+  if (precision === Infinity) {
+    return number;
+  }
+
+  if (!Number.isInteger(precision)) {
+    throw new TypeError("Expected precision to be an integer");
+  }
+
+  const isNegative = number < 0;
+  const inputNumber = isNegative ? Math.abs(number) : number;
+
+  const power = 10 ** precision;
+  const result =
+    Math.round(Number((inputNumber * power).toPrecision(15))) / power;
+
+  return isNegative ? -result : result;
+}
 
 export default ({
   children,
@@ -14,53 +37,49 @@ export default ({
   dark = true,
   debug = false,
 }) => {
-  // ratios
-  const descentAbs = Math.abs(font.descent);
+  // console.log(font);
+  const absoluteDescent = Math.abs(font.descent);
+
   const capHeightRatio = font.capHeight / font.unitsPerEm;
-  const ascentRatio = (font.ascent - font.capHeight) / font.unitsPerEm;
-  const descentRatio = descentAbs / font.unitsPerEm;
+  const descentRatio = absoluteDescent / font.unitsPerEm;
+  const ascentRatio = font.ascent / font.unitsPerEm;
+  const lineGapRatio = font.lineGap / font.unitsPerEm;
 
-  // bounding box
-  const boundingBox = font.ascent + descentAbs + font.lineGap;
-  const boundingBoxHeight = (boundingBox / font.unitsPerEm) * fontSize;
+  const contentAreaMetric = font.ascent + font.lineGap + absoluteDescent;
+  const contentAreaRatio = contentAreaMetric / font.unitsPerEm;
 
-  // type height
-  const capSize = capHeightRatio * fontSize;
-  const typeRows = Math.round(capSize / baseline);
-  const typeHeight = snap ? typeRows * baseline : capSize;
+  const capHeight = fontSize * capHeightRatio;
+  const ascentHeight = ascentRatio * fontSize;
+  const descentHeight = descentRatio * fontSize;
+  const lineGapHeight = lineGapRatio * fontSize;
+  const lineGapHeightHalf = lineGapHeight / 2;
+  const contentAreaHeight = Math.round(contentAreaRatio * fontSize);
 
-  // leading
-  const leadingValue = snap ? Math.ceil(leading) : leading;
-  const minLeading = snap ? typeRows : typeHeight;
-  const typeLeading =
-    leading < 0 ? Math.max(leadingValue, minLeading * -1) : leadingValue;
+  const typeRowHeight = capHeight + leading * baseline;
+  const typeRowHeightBaseline = Math.ceil(typeRowHeight / baseline) * baseline;
+  const lineHeight = snap ? typeRowHeightBaseline : typeRowHeight;
 
-  // line height
-  const typeLineGap = typeLeading * baseline;
-  const typeLineHeight = typeHeight + typeLineGap;
+  const lineHeightOffset = contentAreaHeight - lineHeight;
+  const lineHeightOffsetHalf = lineHeightOffset / 2;
 
-  // leading trim
-  const lineGapHeight = (font.lineGap / font.unitsPerEm) * fontSize;
-  const lineHeightOffset =
-    (boundingBoxHeight - typeLineHeight - lineGapHeight) / 2;
+  const trimTop =
+    Math.round(
+      ascentHeight - capHeight + lineGapHeightHalf - lineHeightOffsetHalf
+    ) * -1;
 
-  const trimTop = ascentRatio * fontSize - lineHeightOffset;
-  const trimBottom = descentRatio * fontSize - lineHeightOffset;
+  const trimBottom =
+    Math.round(descentHeight + lineGapHeightHalf - lineHeightOffsetHalf) * -1;
 
-  // align to baseline
-  const paddingTop = snap
-    ? preventCollapse + ((trimBottom + trimTop) % baseline)
-    : preventCollapse;
+  const typeHeight = lineHeight + trimTop + trimBottom;
+  const typeHeightBaseline = Math.ceil(typeHeight / baseline) * baseline;
 
-  const trimTopValue = `${trimTop * -1 - preventCollapse}px`;
-  const trimBottomBalue = `${trimBottom * -1 - preventCollapse}px`;
+  const spaceTop = typeHeightBaseline - typeHeight;
 
-  const fontSizeValue = `${fontSize}px;`;
-  const lineHeightValue = `${typeLineHeight}px;`;
-  const paddingTopValue = `${paddingTop}px`;
-  const paddingBottomValue = `${preventCollapse}px`;
-
-  // TODO useEmRem and unitless lh
+  const fontSizeValue = fontSize;
+  const lineHeightValue = lineHeight;
+  const trimTopValue = trimTop;
+  const trimBottomValue = trimBottom;
+  const spaceTopValue = snap ? spaceTop : 0;
 
   return (
     <span
@@ -68,37 +87,47 @@ export default ({
       contentEditable
       className={css`
         display: block;
-        font-family: '${font.familyName}';
-        font-weight: ${font['OS/2'].usWeightClass};
-        font-size: ${fontSizeValue};
-        line-height: ${lineHeightValue};
-        padding-top: ${paddingTopValue};
-        padding-bottom: ${paddingBottomValue};
+        font-family: "${font.familyName}";
+        font-weight: ${font["OS/2"].usWeightClass};
+        font-size: ${fontSizeValue}px;
+        line-height: ${lineHeightValue}px;
         margin-bottom: ${flow * baseline}px;
+        padding-top: ${spaceTopValue}px;
         background-color: ${!debug
-          ? 'transparent'
+          ? "transparent"
           : dark
-          ? 'rgba(255, 0, 107,0.3)'
-          : 'rgba(255, 0, 107,0.1)'};
-        &::before,
-        &::after {
-          content: '';
-          display: block;
-          height: 0;
-        }
+          ? "rgba(255, 0, 107,0.3)"
+          : "rgba(255, 0, 107,0.1)"};
         &::before {
-          margin-top: ${trimTopValue};
+          content: "";
+          margin-bottom: ${trimTopValue}px;
+          display: table;
         }
         &::after {
-          margin-bottom: ${trimBottomBalue};
-        }
-        &:focus {
-          outline: none;
+          content: "";
+          margin-top: ${trimBottomValue}px;
+          display: table;
         }
       `}
     >
       {children}
-      {dark}
     </span>
   );
 };
+
+// &::before {
+//   content: "";
+//   margin-bottom: ${roundTo(
+//     leadingTrim(ascentRatio - capHeightRatio + lineGapRatio / 2) * -1,
+//     PRECISION
+//   )}em;
+//   display: table;
+// }
+// &::after {
+//   content: "";
+//   margin-top: ${roundTo(
+//     leadingTrim(descentRatio + lineGapRatio / 2) * -1,
+//     PRECISION
+//   )}em;
+//   display: table;
+// }

@@ -1,19 +1,19 @@
-import { Component, h, render } from 'preact';
-import { useState } from 'preact/hooks';
+import { Component, h, render } from "preact";
+import { useState } from "preact/hooks";
 
-import FontContext from './FontContext';
-import AppContext from './AppContext';
-import AppHeader from './AppHeader';
-import Main from './Main';
+import FontContext from "./FontContext";
+import AppContext from "./AppContext";
+import AppHeader from "./AppHeader";
+import Main from "./Main";
 
 const App = () => {
   const [font, setFont] = useState();
-  const [baseline, setBaseline] = useState(8);
-  const [size, setSize] = useState(16);
+  const [baseline, setBaseline] = useState(16);
+  const [size, setSize] = useState(14);
   const [lead, setLead] = useState(2);
   const [flow, setFlow] = useState(6);
   const [ratio, setRatio] = useState(1.25);
-  const [length, setLength ] = useState(3);
+  const [length, setLength] = useState(33);
   const [snap, setSnap] = useState(true);
   const [grid, setGrid] = useState(true);
   const [debug, setDebug] = useState(false);
