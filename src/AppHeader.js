@@ -147,7 +147,7 @@ export default () => {
       <div
         className={css`
           display: grid;
-          grid-template-columns: repeat(12, minmax(auto, 1fr));
+          grid-template-columns: repeat(11, minmax(auto, 1fr));
           & > * {
             text-align: left;
             font-size: 9px;
@@ -157,22 +157,21 @@ export default () => {
       >
         <div>DARK</div>
         <div>FONT</div>
+        <div>{snap ? "ALIGN TO GRID" : "LINE GAP"}</div>
         <div>BASELINE</div>
         <div>LEADING</div>
         <div>ROOT SIZE</div>
         <div>SCALE</div>
         <div>LENGTH</div>
         <div>V-RHYTHM</div>
-        <div>ALIGN TO GRID</div>
         <div>RULERS</div>
-        <div>BOUNDING BOX</div>
-        <div></div>
+        <div />
       </div>
       <div
         className={css`
           height: 30px;
           display: grid;
-          grid-template-columns: repeat(12, minmax(auto, 1fr));
+          grid-template-columns: repeat(11, minmax(auto, 1fr));
         `}
       >
         <button className={gridBtn} onClick={() => setDark(!dark)}>
@@ -203,7 +202,14 @@ export default () => {
           />
           {font ? font.familyName : "F"}
         </div>
-
+        <button
+          className={gridBtn}
+          onClick={() => {
+            setSnap(!snap);
+          }}
+        >
+          A
+        </button>
         <div
           className={css`
             overflow: hidden;
@@ -296,20 +302,11 @@ export default () => {
             onChange={(e) => setFlow(e.target.value)}
           />
         </div>
-        <button
-          className={gridBtn}
-          onClick={() => {
-            setSnap(!snap);
-          }}
-        >
-          A
-        </button>
+
         <button className={gridBtn} onClick={() => setGrid(!grid)}>
           R
         </button>
-        <button className={gridBtn} onClick={() => setDebug(!debug)}>
-          B
-        </button>
+
         <a
           className={gridBtn}
           onClick={() => setDark(!dark)}

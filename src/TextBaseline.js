@@ -1,6 +1,11 @@
 import { h } from "preact";
 import { css } from "emotion";
 
+const precision = 4;
+const toPrecision = (input, precision) => {
+  return input.toPrecision(precision);
+};
+
 export default ({
   children,
   font,
@@ -12,45 +17,40 @@ export default ({
   dark = true,
   debug = false,
 }) => {
+  const toBaseline = (num) => Math.ceil(num / baseline) * baseline;
+
   const descentAbsolute = Math.abs(font.descent);
+  const contentArea = font.ascent + font.lineGap + descentAbsolute;
+
+  const contentAreaRatio = contentArea / font.unitsPerEm;
   const descentRatio = descentAbsolute / font.unitsPerEm;
-  const capHeightRatio = font.capHeight / font.unitsPerEm;
   const ascentRatio = font.ascent / font.unitsPerEm;
   const lineGapRatio = font.lineGap / font.unitsPerEm;
-
-  const contentAreaUnits = font.ascent + font.lineGap + descentAbsolute;
-  const contentAreaRatio = contentAreaUnits / font.unitsPerEm;
-
+  const lineGapRatioHalf = lineGapRatio / 2;
+  const capHeightRatio = font.capHeight / font.unitsPerEm;
   const capHeight = fontSize * capHeightRatio;
-  const ascentHeight = ascentRatio * fontSize;
-  const descentHeight = descentRatio * fontSize;
-  const lineGapHeight = lineGapRatio * fontSize;
-  const lineGapHeightHalf = lineGapHeight / 2;
-  const contentAreaHeight = Math.round(contentAreaRatio * fontSize);
+  const rowHeight = snap ? toBaseline(capHeight) : capHeight;
+  const rowHeightRatio = rowHeight / fontSize;
 
-  const typeRowHeight = capHeight + leading * baseline;
-  const typeRowHeightBaseline = Math.ceil(typeRowHeight / baseline) * baseline;
-  const lineHeight = snap ? typeRowHeightBaseline : Math.round(typeRowHeight);
-
+  const lineHeight = rowHeight + leading * baseline;
+  const contentAreaHeight = contentAreaRatio * fontSize;
   const lineHeightOffset = contentAreaHeight - lineHeight;
   const lineHeightOffsetHalf = lineHeightOffset / 2;
+  const lineHeightOffsetHalfRatio = lineHeightOffsetHalf / fontSize;
 
   const trimTop =
-    Math.round(
-      ascentHeight - capHeight + lineGapHeightHalf - lineHeightOffsetHalf
-    ) * -1;
+    (ascentRatio -
+      rowHeightRatio +
+      lineGapRatioHalf -
+      lineHeightOffsetHalfRatio) *
+    -1;
 
   const trimBottom =
-    Math.round(descentHeight + lineGapHeightHalf - lineHeightOffsetHalf) * -1;
+    (descentRatio + lineGapRatioHalf - lineHeightOffsetHalfRatio) * -1;
 
-  const typeHeight = lineHeight + trimTop + trimBottom;
-  const typeHeightBaseline = Math.ceil(typeHeight / baseline) * baseline;
-
-  const spaceTop = snap ? typeHeightBaseline - typeHeight : 0;
-  const fontSizeValue = fontSize;
-  const lineHeightValue = lineHeight;
-  const trimTopValue = trimTop + spaceTop;
-  const trimBottomValue = trimBottom;
+  const lineHeightValue = toPrecision(lineHeight / fontSize, precision);
+  const trimTopValue = toPrecision(trimTop, precision);
+  const trimBottomValue = toPrecision(trimBottom, precision);
 
   return (
     <span
@@ -60,22 +60,23 @@ export default ({
         display: block;
         font-family: "${font.familyName}";
         font-weight: ${font["OS/2"].usWeightClass};
-        font-size: ${fontSizeValue}px;
-        line-height: ${lineHeightValue}px;
+        font-size: ${fontSize}px;
+        line-height: ${lineHeightValue};
         margin-bottom: ${flow * baseline}px;
+        padding-top: ${0}px;
         background-color: ${!debug
           ? "transparent"
           : dark
-          ? "rgba(255, 0, 107,0.3)"
-          : "rgba(255, 0, 107,0.1)"};
+          ? "var(--debug-bg)"
+          : "var(--debug-bg)"};
         &::before {
           content: "";
-          margin-bottom: ${trimTopValue}px;
+          margin-bottom: ${trimTopValue}em;
           display: table;
         }
         &::after {
           content: "";
-          margin-top: ${trimBottomValue}px;
+          margin-top: ${trimBottomValue}em;
           display: table;
         }
         &:focus {
