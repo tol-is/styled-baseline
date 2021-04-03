@@ -236,7 +236,7 @@ export default () => {
             value={lead}
             min={-12}
             max={12}
-            step={!snap ? 0.1 : 1}
+            step={1}
             onChange={(e) => setLead(e.target.value)}
           />
         </div>

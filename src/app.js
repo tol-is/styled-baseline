@@ -15,7 +15,7 @@ const App = () => {
   const [ratio, setRatio] = useState("1.333333333");
   const [length, setLength] = useState(12);
   const [snap, setSnap] = useState(true);
-  const [grid, setGrid] = useState(true);
+  const [grid, setGrid] = useState(false);
   const [debug, setDebug] = useState(false);
   const [dark, setDark] = useState(true);
 
