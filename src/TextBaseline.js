@@ -17,7 +17,16 @@ export default ({
   dark = true,
   debug = false,
 }) => {
-  const toBaseline = (num) => Math.ceil(num / baseline) * baseline;
+  const toBaseline = (num) => {
+    // const factor = num / baseline;
+    // const remainer = factor - Math.floor(factor);
+
+    // console.log(remainer, ratio);
+
+    // const round = remainer < ratio ? Math.floor : Math.ceil;
+
+    return Math.ceil(num / baseline) * baseline;
+  };
 
   const descentAbsolute = Math.abs(font.descent);
   const contentArea = font.ascent + font.lineGap + descentAbsolute;
@@ -28,7 +37,10 @@ export default ({
   const lineGapRatio = font.lineGap / font.unitsPerEm;
   const lineGapRatioHalf = lineGapRatio / 2;
   const capHeightRatio = font.capHeight / font.unitsPerEm;
+  const xHeightRatio = font.xHeight / font.unitsPerEm;
   const capHeight = fontSize * capHeightRatio;
+
+  const roundPoint = xHeightRatio;
   const rowHeight = snap ? toBaseline(capHeight) : capHeight;
   const rowHeightRatio = rowHeight / fontSize;
 
@@ -48,7 +60,7 @@ export default ({
   const trimBottom =
     (descentRatio + lineGapRatioHalf - lineHeightOffsetHalfRatio) * -1;
 
-  const lineHeightValue = toPrecision(lineHeight / fontSize, precision);
+  const lineHeightValue = lineHeight / fontSize;
   const trimTopValue = toPrecision(trimTop, precision);
   const trimBottomValue = toPrecision(trimBottom, precision);
 

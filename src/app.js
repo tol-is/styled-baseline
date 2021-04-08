@@ -9,10 +9,10 @@ import Main from "./Main";
 const App = () => {
   const [font, setFont] = useState();
   const [baseline, setBaseline] = useState(8);
-  const [size, setSize] = useState(20);
+  const [size, setSize] = useState(16);
   const [lead, setLead] = useState(2);
   const [flow, setFlow] = useState(6);
-  const [ratio, setRatio] = useState("1.333333333");
+  const [ratio, setRatio] = useState("1.2");
   const [length, setLength] = useState(12);
   const [snap, setSnap] = useState(true);
   const [grid, setGrid] = useState(false);
