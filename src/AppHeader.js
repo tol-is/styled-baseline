@@ -157,7 +157,7 @@ export default () => {
       >
         <div>DARK</div>
         <div>FONT</div>
-        <div>{snap ? "ALIGN TO GRID" : "LINE GAP"}</div>
+        <div>{snap ? "BASELINE GRID" : "LINE GAP"}</div>
         <div>BASELINE</div>
         <div>LEADING</div>
         <div>ROOT SIZE</div>
