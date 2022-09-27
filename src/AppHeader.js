@@ -220,7 +220,7 @@ export default () => {
             type="number"
             value={baseline}
             min={2}
-            max={20}
+            max={32}
             step={1}
             onChange={(e) => setBaseline(e.target.value)}
           />
